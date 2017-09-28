@@ -237,7 +237,7 @@ public class IO {
     /// - Returns: A string value or nil.
     @discardableResult
     public func gets(_ sep: String? = "\n") -> String? {
-        guard let sep = sep?.first, sep.length.isPositive else { return read() }
+        guard let sep = sep?.first else { return read() }
         if sep == "\n" {
             let buffer = [CChar](repeating: 0, count: 1024)
             guard let _ = fgets(UnsafeMutablePointer(mutating: buffer), buffer.count.to_i32, file) else { return nil }
@@ -251,7 +251,7 @@ public class IO {
                 guard let char = getc else { break }
                 if char == "\n" { lineno += 1 }
                 buffer.append(char)
-                if char == sep { break }
+                if char == String(sep) { break }
             }
             return buffer
         }
